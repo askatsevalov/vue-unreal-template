@@ -1,7 +1,9 @@
 <template>
   <div class="toast" :class="type">
-    <Icon :name="icon" />
-    {{ text }}
+    <div class="icon">
+      <Icon :name="icon" />
+    </div>
+    <p>{{ text }}</p>
   </div>
 </template>
 
@@ -26,11 +28,11 @@ export default defineComponent({
     icon(): string {
       switch (this.type) {
         case "success":
-          return "plus"; // "check";
+          return "check";
         case "error":
           return "cross";
         case "warning":
-          return "exclamation";
+          return "alert";
         case "info":
           return "info";
         default:

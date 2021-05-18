@@ -1,6 +1,5 @@
 <template>
   <div class="hello">
-    <Button @click="showToast"> <Icon name="plus" /> Show toast</Button>
     <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
@@ -139,8 +138,17 @@ export default defineComponent({
     msg: String,
   },
   methods: {
-    showToast() {
-      $toast.error("It works!");
+    success() {
+      $toast.success("success message");
+    },
+    error() {
+      $toast.error("error message");
+    },
+    warning() {
+      $toast.warning("warning message");
+    },
+    info() {
+      $toast.info("info message");
     },
   },
 });
