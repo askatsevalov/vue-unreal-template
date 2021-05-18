@@ -1,5 +1,5 @@
-import Button from "./Button.vue";
-import Icon from "./Icon.vue";
+import Button from "./Button/Button.vue";
+import Icon from "./Icon/Icon.vue";
 
 export default {
   Button,

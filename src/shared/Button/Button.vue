@@ -8,6 +8,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  name: "Button",
   props: {
     variant: {
       type: String,
@@ -21,4 +22,6 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import "style";
+</style>

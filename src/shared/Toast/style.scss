@@ -1,0 +1,16 @@
+.toast {
+  margin-top: 15px;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  background: $white;
+  box-shadow: 0px 4px 20px rgba(37, 50, 56, 0.1);
+  border-radius: 10px;
+
+  &.success {
+    color: $success;
+  }
+
+  &.error {
+    color: $error;
+  }
+}

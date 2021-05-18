@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "mount-vue-component": "^0.10.0",
     "secure-ls": "^1.2.6",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
@@ -41,9 +42,9 @@
     "lint-staged": "^9.5.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^8.0.2",
+    "svg-sprite-loader": "^6.0.6",
     "svgo": "^2.3.0",
     "typescript": "~4.1.5",
-    "svg-sprite-loader": "^6.0.6",
     "vue-jest": "^5.0.0-0"
   },
   "gitHooks": {

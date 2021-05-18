@@ -5,7 +5,9 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "Icon",
   props: {
     name: {
@@ -13,15 +15,9 @@ export default {
       required: true,
     },
   },
-};
+});
 </script>
 
 <style scoped lang="scss">
-svg {
-  fill: currentColor;
-  height: 1em;
-  width: 1em;
-  vertical-align: -0.15em;
-  overflow: hidden;
-}
+@import "style";
 </style>
