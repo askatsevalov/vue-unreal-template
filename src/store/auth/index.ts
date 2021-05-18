@@ -17,12 +17,12 @@ export interface User {
 }
 
 export const state: AuthState = {
-  loggedIn: false
+  loggedIn: false,
 };
 
 export const auth: Module<AuthState, RootState> = {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 };

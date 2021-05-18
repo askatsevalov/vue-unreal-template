@@ -17,5 +17,5 @@ export const mutations: MutationTree<AuthState> = {
     state.refreshToken = undefined;
     state.accessToken = undefined;
     state.user = undefined;
-  }
+  },
 };

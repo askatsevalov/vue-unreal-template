@@ -11,23 +11,23 @@ export type RootState = {
 };
 
 export const state: RootState = {
-  version: "0.1.0"
+  version: "0.1.0",
 };
 
 export default createStore({
   state,
   modules: {
-    auth
+    auth,
   },
   plugins: [
     createPersistedState({
       key: "ueam-auth",
       paths: ["auth"],
       storage: {
-        getItem: key => secureLocalStorage.get(key),
+        getItem: (key) => secureLocalStorage.get(key),
         setItem: (key, value) => secureLocalStorage.set(key, value),
-        removeItem: key => secureLocalStorage.remove(key)
-      }
-    })
-  ]
+        removeItem: (key) => secureLocalStorage.remove(key),
+      },
+    }),
+  ],
 });

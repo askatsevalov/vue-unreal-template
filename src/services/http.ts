@@ -4,8 +4,8 @@ import axios from "@/services/axios";
 import AuthRepository from "@/api/interfaces/auth-repository";
 import CrudRepository from "@/api/interfaces/crud-repository";
 
-import createAuthRepository from "@/api/auth";
-import createOrganizationRepository from "@/api/organization";
+import createAuthRepository from "@/api/repositories/auth";
+import createOrganizationRepository from "@/api/repositories/organization";
 
 export class HttpService {
   constructor(axios: AxiosInstance) {

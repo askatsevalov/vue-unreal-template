@@ -1,5 +1,5 @@
 import { RootState } from "@/store";
-import { NavigationGuardNext } from "vue-router";
+import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 import { Store } from "vuex";
 
 export type Middleware = ({ next, store }: MiddlewareContext) => void;
@@ -7,6 +7,7 @@ export type Middleware = ({ next, store }: MiddlewareContext) => void;
 export interface MiddlewareContext {
   next: NavigationGuardNext;
   store: Store<RootState>;
+  to: RouteLocationNormalized;
 }
 
 export default function middlewarePipeline(

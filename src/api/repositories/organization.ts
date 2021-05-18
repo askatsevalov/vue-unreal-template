@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse } from "axios";
-import CrudRepository from "./interfaces/crud-repository";
-import Organization from "./dto/organization";
+import CrudRepository from "../interfaces/crud-repository";
+import Organization from "../dto/organization";
 
 export const organizationUrl = "/organization/";
 
@@ -25,5 +25,5 @@ export default (axios: AxiosInstance): CrudRepository => ({
   },
   delete(id: string): Promise<AxiosResponse> {
     return axios.delete(`${organizationUrl}/${id}`);
-  }
+  },
 });

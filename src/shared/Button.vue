@@ -1,5 +1,5 @@
 <template>
-  <button :style="`background: ${color}`">
+  <button :class="`${variant} ${size}`">
     <slot />
   </button>
 </template>
@@ -9,11 +9,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   props: {
-    color: {
+    variant: {
       type: String,
-      default: "#42b983"
-    }
-  }
+      default: "primary",
+    },
+    size: {
+      type: String,
+      default: "normal",
+    },
+  },
 });
 </script>
 

@@ -1,4 +1,4 @@
-# super-demo
+# vue-kats-template
 
 ## Project setup
 

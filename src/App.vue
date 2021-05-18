@@ -1,24 +1,24 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
   <component :is="layout">
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </component>
 </template>
 
 <script lang="ts">
+import Default from "@/layouts/Default.vue";
 import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
+  components: { Default },
   computed: {
     layout() {
       return this.$route.meta.layout || "Default";
-    }
-  }
+    },
+  },
 });
 </script>
 
@@ -29,19 +29,6 @@ export default defineComponent({
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 
 .fade-enter-active,

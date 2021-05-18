@@ -1,4 +1,4 @@
-import { AuthUrl } from "@/api/auth";
+import { AuthUrl } from "@/api/repositories/auth";
 import router from "@/router";
 import store from "@/store";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
@@ -8,7 +8,7 @@ export interface AxiosConfig {
 }
 
 const service = axios.create({
-  baseURL: process.env.VUE_APP_API_URL
+  baseURL: process.env.VUE_APP_API_URL,
 });
 
 service.interceptors.request.use(
@@ -25,7 +25,7 @@ service.interceptors.response.use(
   (response): Promise<AxiosResponse> => {
     return Promise.resolve(response);
   },
-  async error => {
+  async (error) => {
     console.error(error);
 
     if (error.response.status !== 401) {
@@ -46,10 +46,10 @@ service.interceptors.response.use(
     return new Promise((resolve, reject) => {
       axios
         .request(config)
-        .then(response => {
+        .then((response) => {
           resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });

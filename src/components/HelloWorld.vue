@@ -1,8 +1,5 @@
 <template>
   <div class="hello">
-    <Button @click="click">
-      Тык
-    </Button>
     <h1>{{ msg }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
@@ -132,26 +129,13 @@
 </template>
 
 <script lang="ts">
-import http from "@/services/http";
-import Button from "@/shared/Button.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  components: { Button },
   name: "HelloWorld",
   props: {
-    msg: String
+    msg: String,
   },
-  async created() {
-    const response = http.auth.signIn({ email: "", password: "" });
-    console.log(response);
-    this.$store.dispatch("auth/login", { email: "", password: "" });
-  },
-  methods: {
-    click() {
-      console.log("Кнопку тыкнули");
-    }
-  }
 });
 </script>
 
