@@ -20,6 +20,7 @@ module.exports = {
   outputDir: "dist",
   lintOnSave: isDev,
   productionSourceMap: false,
+
   css: {
     loaderOptions: {
       sass: {
@@ -27,6 +28,7 @@ module.exports = {
       },
     },
   },
+
   devServer: {
     port,
     open: true,
@@ -45,6 +47,7 @@ module.exports = {
       },
     },
   },
+
   configureWebpack: {
     name,
     resolve: {
@@ -59,6 +62,7 @@ module.exports = {
       }),
     ],
   },
+
   chainWebpack(config) {
     config.plugins.delete("preload");
     config.plugins.delete("prefetch");
@@ -112,5 +116,17 @@ module.exports = {
       });
       config.optimization.runtimeChunk("single");
     });
+  },
+
+  pluginOptions: {
+    i18n: {
+      locale: "ru",
+      fallbackLocale: "en",
+      localeDir: "locales",
+      enableLegacy: false,
+      runtimeOnly: false,
+      compositionOnly: false,
+      fullInstall: true,
+    },
   },
 };

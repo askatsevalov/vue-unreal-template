@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <LanguageSelector />
+    <h1>{{ t(msg) }}</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br />
       check out the
@@ -130,26 +131,22 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import $toast from "@/services/toast";
+import { useI18n } from "vue-i18n";
+import LanguageSelector from "./LanguageSelector/LanguageSelector.vue";
 
 export default defineComponent({
   name: "HelloWorld",
+  components: { LanguageSelector },
   props: {
     msg: String,
   },
-  methods: {
-    success() {
-      $toast.success("success message");
-    },
-    error() {
-      $toast.error("error message");
-    },
-    warning() {
-      $toast.warning("warning message");
-    },
-    info() {
-      $toast.info("info message");
-    },
+  setup() {
+    const { t } = useI18n({
+      inheritLocale: true,
+      useScope: "global",
+    });
+
+    return { t };
   },
 });
 </script>
