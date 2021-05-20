@@ -1,10 +1,38 @@
 import Toast from "@/shared/Toast/Toast.vue";
 import { createApp } from "vue";
 
-const TOAST_TELEPORT_ID = "toast-teleport";
 const DELAY = 5000;
-const ANIMATION_DURATION = 300;
+const ANIMATION_DURATION = 250;
+const OFFSET = 15;
+
 export class ToastService {
+  private _elems: HTMLElement[] = [];
+
+  private _show(text: string, type: string) {
+    const toast = createApp(Toast, { text, type });
+    const elem = toast.mount(document.createElement("div")).$el as HTMLElement;
+
+    this._elems.unshift(elem);
+    document.body?.prepend(elem);
+    elem.style.top = `${OFFSET}px`;
+    const newElementHeight = elem.offsetHeight;
+    for (let i = 1; i < this._elems.length; i++) {
+      const currentOffset = this._elems[i].offsetTop;
+      this._elems[i].style.top = `${currentOffset +
+        newElementHeight +
+        OFFSET}px`;
+    }
+
+    setTimeout(() => {
+      elem.classList.add("closing");
+
+      setTimeout(() => {
+        toast.unmount();
+        this._elems.pop();
+      }, ANIMATION_DURATION);
+    }, DELAY);
+  }
+
   success(text: string): void {
     this._show(text, "success");
   }
@@ -19,20 +47,6 @@ export class ToastService {
 
   info(text: string): void {
     this._show(text, "info");
-  }
-
-  private _show(text: string, type: string) {
-    const teleport = document.getElementById(TOAST_TELEPORT_ID);
-    const toast = createApp(Toast, { text, type });
-    const elem = toast.mount(document.createElement("div")).$el as HTMLElement;
-    teleport?.appendChild(elem);
-    console.log("🚀 > elem", elem);
-    setTimeout(() => {
-      elem.classList.add("closing");
-      setTimeout(() => {
-        toast.unmount();
-      }, ANIMATION_DURATION);
-    }, DELAY);
   }
 }
 
