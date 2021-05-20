@@ -1,3 +1,11 @@
 {
-  "message": "Добро пожаловать в Ваше Vue.js + TypeScript приложение"
+  "message": "Добро пожаловать в Ваше Vue.js + TypeScript приложение",
+  "person-form": {
+    "name": "Имя",
+    "name-placeholder": "Введите имя",
+    "description": "Описание",
+    "description-placeholder": "Введите описание",
+    "gender": "Пол",
+    "has-gender": "Имеет пол"
+  }
 }
