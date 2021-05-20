@@ -1,5 +1,6 @@
 export interface FormBuilderConfig {
   fields: FormField[];
+  validation?: any;
 }
 
 interface FormField {
@@ -8,7 +9,6 @@ interface FormField {
   key: string;
   label: string;
   placeholder?: string;
-  validate?: string | string[] | ((value: any) => Promise<string>);
   hide?: HideOptions;
 
   // Select

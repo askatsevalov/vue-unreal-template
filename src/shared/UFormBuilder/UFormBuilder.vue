@@ -41,7 +41,7 @@ import { defineComponent, PropType, ref } from "vue";
 import { FormBuilderConfig } from "./form-builder";
 
 export default defineComponent({
-  name: "FormBuilder",
+  name: "UFormBuilder",
   props: {
     config: {
       type: Object as PropType<FormBuilderConfig>,
@@ -57,7 +57,7 @@ export default defineComponent({
     // i18n
     const { t } = useI18n({ useScope: "global" });
 
-    const localItem = ref(props.item);
+    const localItem = ref<typeof props.item>(props.item);
 
     return { t, localItem };
   },

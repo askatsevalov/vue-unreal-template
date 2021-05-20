@@ -9,7 +9,7 @@
       <button @click="error">error toast</button>
     </p>
     <p>
-      <FormBuilder v-model:config="formConfig" v-model:item="person" />
+      <UFormBuilder v-model:config="formConfig" v-model:item="person" />
     </p>
     <div>
       <h3>Person:</h3>
@@ -25,7 +25,7 @@ import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import LanguageSelector from "@/components/LanguageSelector/LanguageSelector.vue";
 import $toast from "@/services/toast";
-import { FormBuilderConfig } from "@/shared/FormBuilder/form-builder";
+import { FormBuilderConfig } from "@/shared/UFormBuilder/form-builder";
 
 export default defineComponent({
   name: "HelloWorld",
@@ -67,12 +67,6 @@ export default defineComponent({
           key: "name",
           label: "person-form.name",
           placeholder: "person-form.name-placeholder",
-          validate(value: string): Promise<string> {
-            if (!value) {
-              return Promise.reject("Name can not be empty.");
-            }
-            return Promise.resolve(value);
-          },
         },
         {
           type: "textarea",

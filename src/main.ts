@@ -7,10 +7,14 @@ import App from "./App.vue";
 const app = createApp(App).use(i18n);
 
 // Plugins
+import i18n from "./i18n";
 import router from "./router";
 import store from "./store";
-import i18n from "./i18n";
-app.use(store).use(router);
+import shared from "./shared";
+app
+  .use(store)
+  .use(router)
+  .use(shared);
 
 // Shared components
 import sharedComponents from "./shared";

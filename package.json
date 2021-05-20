@@ -1,5 +1,5 @@
 {
-  "name": "vue-kats-template",
+  "name": "vue-unreal-template",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +16,7 @@
     "core-js": "^3.6.5",
     "mount-vue-component": "^0.10.0",
     "secure-ls": "^1.2.6",
+    "vee-validate": "^4.4.0-alpha.2",
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.0-0",

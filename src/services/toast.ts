@@ -1,15 +1,15 @@
-import Toast from "@/shared/Toast/Toast.vue";
+import UToast from "@/shared/UToast/UToast.vue";
 import { createApp } from "vue";
 
 const DELAY = 5000;
 const ANIMATION_DURATION = 250;
 const OFFSET = 15;
 
-export class ToastService {
+export class UToastService {
   private _elems: HTMLElement[] = [];
 
   private _show(text: string, type: string) {
-    const toast = createApp(Toast, { text, type });
+    const toast = createApp(UToast, { text, type });
     const elem = toast.mount(document.createElement("div")).$el as HTMLElement;
 
     this._elems.unshift(elem);
@@ -50,4 +50,4 @@ export class ToastService {
   }
 }
 
-export default new ToastService();
+export default new UToastService();

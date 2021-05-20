@@ -1,7 +1,7 @@
 <template>
   <div class="toast" :class="type">
     <div class="icon">
-      <Icon :name="icon" />
+      <UIcon :name="icon" />
     </div>
     <p>{{ text }}</p>
   </div>
@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Icon from "@/shared/Icon/Icon.vue";
+import UIcon from "@/shared/UIcon/UIcon.vue";
 
 export default defineComponent({
-  name: "Toast",
-  components: { Icon },
+  name: "UToast",
+  components: { UIcon },
   props: {
     text: {
       type: String,

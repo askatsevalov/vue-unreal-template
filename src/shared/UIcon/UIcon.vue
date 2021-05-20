@@ -8,7 +8,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Icon",
+  name: "UIcon",
   props: {
     name: {
       type: String,
