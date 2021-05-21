@@ -1,0 +1,17 @@
+table {
+  border-spacing: 0;
+  width: 100%;
+  text-align: left;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  th {
+    padding: 0.5em 1em;
+    border-bottom: 3px solid #ecf0f2;
+  }
+
+  td {
+    padding: 0.3em 1em;
+    border-bottom: 1px solid #ecf0f2;
+  }
+}

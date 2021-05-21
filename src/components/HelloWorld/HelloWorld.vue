@@ -10,9 +10,17 @@
     </p>
     <p>
       <UFormBuilder
-        v-model:item="organization"
+        :item="organization"
         :config="formConfig"
-        @submited="submited"
+        @onSubmit="submit"
+      />
+    </p>
+    <p>
+      <UTableBuilder
+        :data="organizations"
+        :columns="tableColumns"
+        @onDelete="remove"
+        @onEdit="edit"
       />
     </p>
   </div>
@@ -26,6 +34,7 @@ import $toast from "@/services/toast";
 import { FormBuilderConfig } from "@/shared/UFormBuilder/form-builder";
 import http from "@/services/http";
 import OrganizationDto from "@/api/dto/organization";
+import { TableColumn } from "@/shared/UTableBuilder/table-builder";
 
 export default defineComponent({
   name: "HelloWorld",
@@ -58,7 +67,7 @@ export default defineComponent({
       id: null,
       name: "Inter ID",
       address: "Ул. Волкова, д. 19",
-      type: "1",
+      typeId: "1",
     });
 
     // Form Builder config
@@ -67,17 +76,17 @@ export default defineComponent({
         {
           type: "input",
           prop: "name",
-          label: "organization-form.name",
+          label: "dto.organization.name",
         },
         {
           type: "input",
           prop: "address",
-          label: "organization-form.address",
+          label: "dto.organization.address",
         },
         {
           type: "select",
-          prop: "type",
-          label: "organization-form.type",
+          prop: "typeId",
+          label: "dto.organization.type",
           options: [
             {
               id: "1",
@@ -95,15 +104,70 @@ export default defineComponent({
       rules: {
         name: "required|min:7|max:12",
       },
-      submit: {
-        repository: http.organization,
-        method: "post",
-      },
     });
 
-    // After submit action
-    function submited() {
-      console.log("organization submited");
+    // Submit action
+    function submit(item: OrganizationDto) {
+      console.log("🚀 > item", item);
+      http.organization.post(item);
+    }
+    //#endregion
+
+    //#region Table Builder
+    // Table data
+    const organizations = ref<OrganizationDto[]>([
+      {
+        id: 1,
+        name: "Inter ID",
+        address: "Ул. Волкова, д. 19",
+        typeId: "1",
+        type: "Внутренняя",
+      },
+      {
+        id: 2,
+        name: "ООО Солнце",
+        address: "Ул. Лисьева, д. 20",
+        typeId: "1",
+        type: "Внутренняя",
+      },
+      {
+        id: 3,
+        name: "АО КАМАЗ",
+        address: "Ул. Зайцева, д. 18",
+        typeId: "2",
+        type: "Внешняя",
+      },
+    ]);
+
+    const tableColumns = ref<TableColumn[]>([
+      {
+        type: "text",
+        prop: "name",
+        label: "dto.organization.name",
+      },
+      {
+        type: "text",
+        prop: "address",
+        label: "dto.organization.address",
+      },
+      {
+        type: "tag",
+        prop: "type",
+        label: "dto.organization.type",
+      },
+      {
+        type: "actions",
+        prop: "id",
+      },
+    ]);
+
+    function edit(id: string | number) {
+      console.log("open edit organization page with id ", id);
+    }
+
+    async function remove(id: string | number) {
+      await http.organization.delete(id);
+      console.log("removed");
     }
     //#endregion
 
@@ -115,7 +179,11 @@ export default defineComponent({
       error,
       formConfig,
       organization,
-      submited,
+      submit,
+      organizations,
+      tableColumns,
+      remove,
+      edit,
     };
   },
 });

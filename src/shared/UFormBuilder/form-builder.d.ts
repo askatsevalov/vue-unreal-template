@@ -2,7 +2,6 @@ import { CrudRepository } from "@/api/interfaces/crud-repository";
 export interface FormBuilderConfig {
   fields: FormField[];
   rules?: any;
-  submit: SubmitOptions;
 }
 
 interface FormField {
@@ -26,9 +25,4 @@ interface FormField {
 interface HideOptions {
   prop: string;
   invert?: boolean;
-}
-
-interface SubmitOptions {
-  repository: CrudRepository;
-  method: string;
 }

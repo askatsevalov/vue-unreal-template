@@ -8,9 +8,12 @@
     "min": "The field must contain at least {limit} characters.",
     "max": "The field must contain no more than {limit} characters."
   },
-  "organization-form": {
-    "name": "Name",
-    "address": "Address",
-    "type": "Type"
+  "dto": {
+    "organization": {
+      "name": "Name",
+      "address": "Address",
+      "type": "Type"
+    }
   }
+  
 }
