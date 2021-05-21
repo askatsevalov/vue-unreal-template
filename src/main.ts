@@ -4,7 +4,7 @@ import "./assets/styles/main.scss";
 // Create app
 import { createApp } from "vue";
 import App from "./App.vue";
-const app = createApp(App).use(i18n);
+const app = createApp(App);
 
 // Plugins
 import i18n from "./i18n";
@@ -14,13 +14,12 @@ import shared from "./shared";
 app
   .use(store)
   .use(router)
-  .use(shared);
+  .use(shared)
+  .use(i18n);
 
-// Shared components
-import sharedComponents from "./shared";
-Object.values(sharedComponents).forEach((component) => {
-  app.component(component.name, component);
-});
+// Utils
+import validators from "./utils/validators";
+app.use(validators);
 
 // Icons
 import "@/icons";

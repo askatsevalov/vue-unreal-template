@@ -1,5 +1,6 @@
 import { createI18n, LocaleMessages, VueMessageType } from "vue-i18n";
 import store from "./store";
+import russianPluralizationRules from "@/utils/russian-pluralizations-rules";
 
 function loadLocaleMessages(): LocaleMessages<VueMessageType> {
   const locales = require.context(
@@ -23,4 +24,7 @@ export default createI18n({
   locale: store.state.locale,
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: loadLocaleMessages(),
+  pluralizationRules: {
+    ru: russianPluralizationRules,
+  },
 });

@@ -1,3 +1,3 @@
 export default interface Base {
-  id: string;
+  id: string | number | null;
 }

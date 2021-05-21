@@ -1,11 +1,16 @@
 {
   "message": "Welcome to Your Vue.js + TypeScript App",
-  "person-form": {
+  "common": {
+    "save": "Save"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "min": "The field must contain at least {limit} characters.",
+    "max": "The field must contain no more than {limit} characters."
+  },
+  "organization-form": {
     "name": "Name",
-    "name-placeholder": "Input name",
-    "description": "Description",
-    "description-placeholder": "Input description",
-    "gender": "Gender",
-    "has-gender": "Has gender"
+    "address": "Address",
+    "type": "Type"
   }
 }

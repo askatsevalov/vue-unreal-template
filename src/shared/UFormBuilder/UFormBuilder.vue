@@ -1,44 +1,35 @@
 <template>
-  <div class="form-builder">
-    <div class="field" v-for="(field, i) in config.fields" :key="i">
-      <!-- REPLACE NEXT CONTROLS WITH YOUR OWN COMPONENTS -->
-      <label
-        v-show="!field.hide || field.hide.invert == localItem[field.hide.key]"
-      >
-        {{ t(field.label) }}
-        <input
-          v-if="field.type === 'input'"
-          v-model="localItem[field.key]"
-          :placeholder="t(field.placeholder)"
-        />
-        <input
-          v-if="field.type === 'checkbox'"
-          type="checkbox"
-          v-model="localItem[field.key]"
-        />
-        <select v-if="field.type === 'select'" v-model="localItem[field.key]">
-          <option
-            v-for="option in field.options"
-            :key="option[field.optionKey]"
-          >
-            {{ option[field.optionLabel] }}
-          </option>
-        </select>
-        <textarea
-          v-if="field.type === 'textarea'"
-          v-model="localItem[field.key]"
-          :placeholder="t(field.placeholder)"
-          :rows="field.textareaRows"
-        />
-      </label>
+  <form class="form-builder" @submit="onSubmit">
+    <div class="toolbar">
+      <button type="submit" :disabled="isSubmitting">
+        {{ t("common.save") }}
+      </button>
     </div>
-  </div>
+    <div class="fields">
+      <div class="field" v-for="(field, i) in config.fields" :key="i">
+        <UInput
+          v-if="field.type === 'input'"
+          :prop="field.prop"
+          :label="field.label"
+        />
+        <USelect
+          v-if="field.type === 'select'"
+          :prop="field.prop"
+          :label="field.label"
+          :options="field.options"
+          :optionKey="field.optionKey"
+          :optionLabel="field.optionLabel"
+        />
+      </div>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
 import { useI18n } from "vue-i18n";
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 import { FormBuilderConfig } from "./form-builder";
+import { useForm } from "vee-validate";
 
 export default defineComponent({
   name: "UFormBuilder",
@@ -52,14 +43,41 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["update:item", "update:config"],
-  setup(props) {
+  emits: ["update:item", "submited"],
+  setup(props, { emit }) {
     // i18n
     const { t } = useI18n({ useScope: "global" });
 
-    const localItem = ref<typeof props.item>(props.item);
+    // Extract initial item value from props
+    const { item } = toRefs(props);
 
-    return { t, localItem };
+    // Create a form context with the validation schema and initial value
+    const { handleSubmit, isSubmitting } = useForm({
+      validationSchema: props.config.rules,
+      initialValues: item,
+    });
+
+    // Form submit action
+    const onSubmit = handleSubmit(async (item) => {
+      const { repository, method } = props.config.submit;
+      try {
+        if (method.toLowerCase() === "post") {
+          await repository.post(item);
+        } else if (method.toLowerCase() === "put") {
+          const { id } = item;
+          await repository.put(id, item);
+        }
+        emit("submited");
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
+    return {
+      t,
+      onSubmit,
+      isSubmitting,
+    };
   },
 });
 </script>

@@ -9,14 +9,12 @@
       <button @click="error">error toast</button>
     </p>
     <p>
-      <UFormBuilder v-model:config="formConfig" v-model:item="person" />
+      <UFormBuilder
+        v-model:item="organization"
+        :config="formConfig"
+        @submited="submited"
+      />
     </p>
-    <div>
-      <h3>Person:</h3>
-      <p>Name: {{ person.name }}</p>
-      <p>Gender: {{ person.gender }}</p>
-      <p>Description: {{ person.description }}</p>
-    </div>
   </div>
 </template>
 
@@ -26,6 +24,8 @@ import { useI18n } from "vue-i18n";
 import LanguageSelector from "@/components/LanguageSelector/LanguageSelector.vue";
 import $toast from "@/services/toast";
 import { FormBuilderConfig } from "@/shared/UFormBuilder/form-builder";
+import http from "@/services/http";
+import OrganizationDto from "@/api/dto/organization";
 
 export default defineComponent({
   name: "HelloWorld",
@@ -37,7 +37,7 @@ export default defineComponent({
     // i18n
     const { t } = useI18n({ useScope: "global" });
 
-    // Toast methods
+    //#region Toast methods
     function success(): void {
       $toast.success("Success");
     }
@@ -50,13 +50,15 @@ export default defineComponent({
     function error(): void {
       $toast.error("Error");
     }
+    //#endregion
 
-    // Form Builder model
-    const person = ref({
-      name: "John Trevor",
-      gender: "M",
-      description: "A very handsome young man",
-      hasGender: true,
+    // #region Form Builder
+    // Form model
+    const organization = ref<OrganizationDto>({
+      id: null,
+      name: "Inter ID",
+      address: "Ул. Волкова, д. 19",
+      type: "1",
     });
 
     // Form Builder config
@@ -64,44 +66,46 @@ export default defineComponent({
       fields: [
         {
           type: "input",
-          key: "name",
-          label: "person-form.name",
-          placeholder: "person-form.name-placeholder",
+          prop: "name",
+          label: "organization-form.name",
         },
         {
-          type: "textarea",
-          key: "description",
-          label: "person-form.description",
-          placeholder: "person-form.description-placeholder",
+          type: "input",
+          prop: "address",
+          label: "organization-form.address",
         },
         {
           type: "select",
-          key: "gender",
-          label: "person-form.gender",
+          prop: "type",
+          label: "organization-form.type",
           options: [
             {
-              id: 1,
-              name: "M",
+              id: "1",
+              name: "Внутренняя",
             },
             {
-              id: 2,
-              name: "F",
+              id: "2",
+              name: "Внешняя",
             },
           ],
           optionKey: "id",
           optionLabel: "name",
-          hide: {
-            key: "hasGender",
-            invert: true,
-          },
-        },
-        {
-          type: "checkbox",
-          key: "hasGender",
-          label: "person-form.has-gender",
         },
       ],
+      rules: {
+        name: "required|min:7|max:12",
+      },
+      submit: {
+        repository: http.organization,
+        method: "post",
+      },
     });
+
+    // After submit action
+    function submited() {
+      console.log("organization submited");
+    }
+    //#endregion
 
     return {
       t,
@@ -110,7 +114,8 @@ export default defineComponent({
       info,
       error,
       formConfig,
-      person,
+      organization,
+      submited,
     };
   },
 });
