@@ -1,34 +1,20 @@
 <template>
   <form class="form-builder" @submit="onSubmit">
-    <div class="toolbar">
-      <button type="submit" :disabled="isSubmitting">
-        {{ t("common.save") }}
-      </button>
-    </div>
-    <div class="fields">
+    <UPanel>
+      <template #header>
+        <UToolbar class="toolbar" :config="config.toolbar"></UToolbar>
+      </template>
       <div class="field" v-for="(field, i) in config.fields" :key="i">
-        <UInput
-          v-if="field.type === 'input'"
-          :prop="field.prop"
-          :label="field.label"
-        />
-        <USelect
-          v-if="field.type === 'select'"
-          :prop="field.prop"
-          :label="field.label"
-          :options="field.options"
-          :optionKey="field.optionKey"
-          :optionLabel="field.optionLabel"
-        />
+        <component :is="field.type" v-bind="field.props" />
       </div>
-    </div>
+    </UPanel>
   </form>
 </template>
 
 <script lang="ts">
 import { useI18n } from "vue-i18n";
 import { defineComponent, PropType, toRefs } from "vue";
-import { FormBuilderConfig } from "./form-builder";
+import { FormBuilderConfig } from "./form-builder.model";
 import { useForm } from "vee-validate";
 
 export default defineComponent({
@@ -43,8 +29,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["onSubmit"],
-  setup(props, { emit }) {
+  setup(props) {
     // i18n
     const { t } = useI18n({ useScope: "global" });
 
@@ -57,9 +42,9 @@ export default defineComponent({
       initialValues,
     });
 
-    // Form submit action
+    // Form submit action after validation
     const onSubmit = handleSubmit(async (item) => {
-      emit("onSubmit", item);
+      await props.config.submitAction(item);
     });
 
     return {

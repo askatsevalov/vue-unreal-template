@@ -1,7 +1,11 @@
 <template>
   <label>
-    {{ t(label) }}
-    <input :value="inputValue" v-on="validationListeners" />
+    {{ t(label || "") }}
+    <input
+      :value="inputValue"
+      v-on="validationListeners"
+      @input="$emit('update:value')"
+    />
     <p v-show="errorMessage">{{ errorMessage }}</p>
   </label>
 </template>

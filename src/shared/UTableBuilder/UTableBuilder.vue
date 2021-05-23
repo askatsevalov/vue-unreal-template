@@ -2,14 +2,14 @@
   <table>
     <thead>
       <tr>
-        <th v-for="({ label }, i) in columns" :key="i">
+        <th v-for="({ label }, i) in config.columns" :key="i">
           {{ t(label || "") }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(item, i) in data" :key="i">
-        <td v-for="({ prop, type }, i) in columns" :key="i">
+        <td v-for="({ prop, type, props }, i) in config.columns" :key="i">
           <span v-if="type === 'text'">
             {{ item[prop] || item }}
           </span>
@@ -20,11 +20,12 @@
             {{ item[prop] || item }}
           </span>
           <div v-if="type === 'actions'">
-            <button @click="$emit('onEdit', item[prop] || item)">
-              Edit
-            </button>
-            <button @click="$emit('onDelete', item[prop] || item)">
-              Delete
+            <button
+              v-for="(action, i) in props.actions"
+              :key="i"
+              @click="action.callback(item[prop] || item)"
+            >
+              <UIcon :name="action.icon" />
             </button>
           </div>
         </td>
@@ -36,13 +37,13 @@
 <script lang="ts">
 import { useI18n } from "vue-i18n";
 import { defineComponent, PropType } from "vue";
-import { TableColumn } from "./table-builder";
+import TableBuilderConfig from "./table-builder.model";
 
 export default defineComponent({
   name: "UTableBuilder",
   props: {
-    columns: {
-      type: Array as PropType<TableColumn[]>,
+    config: {
+      type: Object as PropType<TableBuilderConfig>,
       required: true,
     },
     data: {

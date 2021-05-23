@@ -9,16 +9,12 @@
       <button @click="error">error toast</button>
     </p>
     <p>
-      <UFormBuilder
-        :item="organization"
-        :config="formConfig"
-        @onSubmit="submit"
-      />
+      <UFormBuilder :item="organization" :config="formConfig" />
     </p>
     <p>
       <UTableBuilder
         :data="organizations"
-        :columns="tableColumns"
+        :config="tableConfig"
         @onDelete="remove"
         @onEdit="edit"
       />
@@ -29,15 +25,19 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
+
 import LanguageSelector from "@/components/LanguageSelector/LanguageSelector.vue";
+
 import $toast from "@/services/toast";
-import { FormBuilderConfig } from "@/shared/UFormBuilder/form-builder";
 import http from "@/services/http";
+
+import TableBuilderConfig from "@/shared/UTableBuilder/table-builder.model";
+import { FormBuilderConfig } from "@/shared/UFormBuilder/form-builder.model";
+
 import OrganizationDto from "@/api/dto/organization";
-import { TableColumn } from "@/shared/UTableBuilder/table-builder";
 
 export default defineComponent({
-  name: "HelloWorld",
+  name: "OrganizationsDemo",
   components: { LanguageSelector },
   props: {
     msg: String,
@@ -74,43 +74,64 @@ export default defineComponent({
     const formConfig = ref<FormBuilderConfig>({
       fields: [
         {
-          type: "input",
-          prop: "name",
-          label: "dto.organization.name",
+          type: "UInput",
+          props: {
+            prop: "name",
+            label: "dto.organization.name",
+          },
         },
         {
-          type: "input",
-          prop: "address",
-          label: "dto.organization.address",
+          type: "UInput",
+          props: {
+            prop: "address",
+            label: "dto.organization.address",
+          },
         },
         {
-          type: "select",
-          prop: "typeId",
-          label: "dto.organization.type",
-          options: [
-            {
-              id: "1",
-              name: "Внутренняя",
-            },
-            {
-              id: "2",
-              name: "Внешняя",
-            },
-          ],
-          optionKey: "id",
-          optionLabel: "name",
+          type: "USelect",
+          props: {
+            prop: "typeId",
+            label: "dto.organization.type",
+            options: [
+              {
+                id: "1",
+                name: "Внутренняя",
+              },
+              {
+                id: "2",
+                name: "Внешняя",
+              },
+            ],
+            optionKey: "id",
+            optionLabel: "name",
+          },
         },
       ],
       rules: {
-        name: "required|min:7|max:12",
+        name: "required|min:5|max:12",
+      },
+      toolbar: {
+        controls: {
+          left: [
+            {
+              type: "button",
+              props: {
+                type: "submit",
+                text: "common.save",
+                callback() {
+                  console.log("after submit");
+                },
+              },
+            },
+          ],
+          right: [],
+        },
+      },
+      async submitAction(item: OrganizationDto) {
+        console.log("🚀 > item", item);
+        await http.organization.post(item);
       },
     });
-
-    // Submit action
-    function submit(item: OrganizationDto) {
-      console.log("🚀 > item", item);
-      http.organization.post(item);
-    }
     //#endregion
 
     //#region Table Builder
@@ -139,36 +160,39 @@ export default defineComponent({
       },
     ]);
 
-    const tableColumns = ref<TableColumn[]>([
-      {
-        type: "text",
-        prop: "name",
-        label: "dto.organization.name",
-      },
-      {
-        type: "text",
-        prop: "address",
-        label: "dto.organization.address",
-      },
-      {
-        type: "tag",
-        prop: "type",
-        label: "dto.organization.type",
-      },
-      {
-        type: "actions",
-        prop: "id",
-      },
-    ]);
-
-    function edit(id: string | number) {
-      console.log("open edit organization page with id ", id);
-    }
-
-    async function remove(id: string | number) {
-      await http.organization.delete(id);
-      console.log("removed");
-    }
+    const tableConfig = ref<TableBuilderConfig>({
+      columns: [
+        {
+          type: "text",
+          prop: "name",
+          label: "dto.organization.name",
+        },
+        {
+          type: "text",
+          prop: "address",
+          label: "dto.organization.address",
+        },
+        {
+          type: "tag",
+          prop: "type",
+          label: "dto.organization.type",
+        },
+        {
+          type: "actions",
+          prop: "id",
+          props: {
+            actions: [
+              {
+                icon: "alert",
+                async callback(id: string) {
+                  await http.organization.delete(id);
+                },
+              },
+            ],
+          },
+        },
+      ],
+    });
     //#endregion
 
     return {
@@ -179,11 +203,8 @@ export default defineComponent({
       error,
       formConfig,
       organization,
-      submit,
       organizations,
-      tableColumns,
-      remove,
-      edit,
+      tableConfig,
     };
   },
 });
